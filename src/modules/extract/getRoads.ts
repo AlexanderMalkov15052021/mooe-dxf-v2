@@ -2,18 +2,17 @@ import { maxDist } from "@/constants";
 import { getDistPointToline } from "@/helpers/math";
 import { MooeDoc } from "@/types";
 
-type Roads = {
+export type Roads = {
     palletRoads: any;
     restRoads: any;
     chargeRoads: any;
-    gateRoads: any;
 };
 
 export const getRoads = (mooe: MooeDoc, points: any, pointslist: any) => {
 
     return mooe?.mRoads.reduce<Roads>(
         (
-            roadsAccum: { palletRoads: any, restRoads: any, chargeRoads: any, gateRoads: any },
+            roadsAccum: { palletRoads: any, restRoads: any, chargeRoads: any },
             road: any
         ) => {
 
@@ -23,7 +22,7 @@ export const getRoads = (mooe: MooeDoc, points: any, pointslist: any) => {
             const startPos = pointslist[startIndex].mLaneMarkXYZW;
             const endPos = pointslist[endIndex].mLaneMarkXYZW;
 
-            roadsAccum.palletRoads = points.pallets.map((pallet: any, index: number) => {
+            roadsAccum.palletRoads = points.palletPoints.map((pallet: any, index: number) => {
 
                 const dist = getDistPointToline(
                     pallet.mLaneMarkXYZW.x,
@@ -113,43 +112,12 @@ export const getRoads = (mooe: MooeDoc, points: any, pointslist: any) => {
 
             });
 
-            roadsAccum.gateRoads = points.gates.map((gate: any, index: number) => {
-
-                const dist = getDistPointToline(
-                    gate.mLaneMarkXYZW.x,
-                    gate.mLaneMarkXYZW.y,
-                    startPos.x,
-                    startPos.y,
-                    endPos.x,
-                    endPos.y
-                );
-
-                if (!roadsAccum.gateRoads[index]) {
-
-                    const data = {
-                        dist: maxDist,
-                        road: null,
-                    }
-
-                    roadsAccum.gateRoads[index] = data;
-                }
-
-                if (dist < roadsAccum.gateRoads[index].dist) {
-                    roadsAccum.gateRoads[index].dist = dist;
-                    roadsAccum.gateRoads[index].road = road;
-                }
-
-                return roadsAccum.gateRoads[index];
-
-            });
-
             return roadsAccum;
 
         }, {
         palletRoads: [],
         restRoads: [],
-        chargeRoads: [],
-        gateRoads: []
+        chargeRoads: []
     });
 
 }
