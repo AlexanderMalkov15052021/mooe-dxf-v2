@@ -16,6 +16,19 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     const straightLines = getStraightLines(mooe, roads);
 
+    const allTargetPoints = points.targetPoints;
+
+    const baseTargetPoints = [
+        ...points.targetChargePoints,
+        ...points.targetPalletPoints,
+        ...points.targetRestPoints,
+        ...points.turningChargePoints,
+        ...points.turningPalletPoints,
+        ...points.turningRestPoints
+    ];
+
+    const otherTargetPoints = allTargetPoints.filter(obj => !baseTargetPoints.includes(obj));
+
     addLayers(dxf);
 
     setRectangle(dxf, mooe);
@@ -108,6 +121,9 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
     points?.chargePoints?.map((rest: laneMark) => addDXFText(dxf, "Charge points", rest));
     points?.targetChargePoints?.map((point: laneMark) => addDXFText(dxf, "Target charge points", point));
     points?.turningChargePoints?.map((point: laneMark) => addDXFText(dxf, "Turning charge points", point));
+
+    // set othe target points
+    otherTargetPoints?.map((point: laneMark) => addDXFText(dxf, "Othe target points", point));
 
     points?.locationPoints?.map((obj: any, index: number) => {
 

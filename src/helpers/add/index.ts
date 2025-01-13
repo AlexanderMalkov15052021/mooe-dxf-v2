@@ -26,6 +26,7 @@ export const addLayers = (dxf: DxfWriter) => {
     dxf.addLayer("Cache pallet points", 164);
     dxf.addLayer("Turning pallet points", 90);
     dxf.addLayer("Turning rest points", 90);
+    dxf.addLayer("Othe target points", 90);
 }
 
 export const addDXFText = (dxf: DxfWriter, layerName: string, point: laneMark) => {

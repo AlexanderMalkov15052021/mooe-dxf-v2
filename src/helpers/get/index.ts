@@ -31,7 +31,10 @@ export const getPointsLine = (mooe: MooeDoc) => {
 export const getPoints = (mooe: MooeDoc) => {
     const points: Points = mooe?.mLaneMarks?.reduce((accum: any, obj: any) => {
 
-        if (obj.mLaneMarkType === 2) {
+        if (obj.mLaneMarkType === 2) {  // target
+
+            accum.targetPoints.push(obj);
+
             if (obj.mLaneMarkName.toLowerCase().includes("rest") && obj.mLaneMarkName.toLowerCase().includes("检")) {
                 accum.targetRestPoints.push(obj);
                 return accum;
@@ -63,7 +66,7 @@ export const getPoints = (mooe: MooeDoc) => {
             }
         }
 
-        if (obj.mLaneMarkType === 9) {
+        if (obj.mLaneMarkType === 9) {  // cache
 
             if (obj.mLaneMarkName.toLowerCase().includes("识别")) {
                 accum.cachePalletPoints.push(obj);
@@ -72,7 +75,7 @@ export const getPoints = (mooe: MooeDoc) => {
 
         }
 
-        if (obj.mLaneMarkType === 11) {
+        if (obj.mLaneMarkType === 11) {  // winding
 
             if (obj.mLaneMarkName.toLowerCase().includes("rest")) {
                 accum.restPoints.push(obj);
@@ -109,6 +112,7 @@ export const getPoints = (mooe: MooeDoc) => {
         targetChargePoints: [],
         turningChargePoints: [],
         locationPoints: [],
+        targetPoints: [],
     });
 
     return points;

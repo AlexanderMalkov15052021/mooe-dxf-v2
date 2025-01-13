@@ -172,5 +172,6 @@ export type Points = {
     targetChargePoints: laneMark[],
     turningChargePoints: laneMark[],
     locationPoints: laneMark[],
+    targetPoints: laneMark[],
 };
 

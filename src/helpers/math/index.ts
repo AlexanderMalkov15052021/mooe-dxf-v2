@@ -49,7 +49,7 @@ export const getDistPointToline = (x: number, y: number, x1: number, y1: number,
 }
 
 // новое положение координат при развороте на определённый угол
-export const getNewCoords = (x: number, y: number, angle: number) => {
+export const getNewCoordsWhenTurning  = (x: number, y: number, angle: number) => {
     const newX = Math.cos(angle) * x - Math.sin(angle) * y;
     const newY = Math.sin(angle) * x + Math.cos(angle) * y;
 
