@@ -7,6 +7,7 @@ import UploadForm from "./components/UploadForm/UploadForm";
 import TypeErrorMessage from "./components/TypeErrorMessage/TypeErrorMessage";
 import LoadingBlock from "./components/LoadingBlock/LoadingBlock";
 import DownloadBtn from "./components/DownloadBtn/DownloadBtn";
+import ModalIds from "./components/ModalIds/ModalIds";
 
 export default function Home() {
 
@@ -40,6 +41,8 @@ export default function Home() {
           <LoadingBlock />
 
           <DownloadBtn />
+
+          <ModalIds />
 
         </main>
       </div>

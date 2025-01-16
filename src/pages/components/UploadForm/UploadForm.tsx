@@ -10,7 +10,7 @@ import { getNewCoordsWhenTurning } from "@/helpers/math";
 const UploadForm = observer(() => {
 
     const {
-        store: { isLoading, refFileName, setIsMessageShow, setIsLoading, setLoadingTime, setRefFileName, setDoc },
+        store: { isLoading, refFileName, setIsMessageShow, setIsLoading, setLoadingTime, setRefFileName, setDoc, checkMooeDoc },
     } = ConverterStor;
 
     const refTime = useRef([0, 0]);
@@ -54,6 +54,8 @@ const UploadForm = observer(() => {
                 const fileStr = reader.result as string;
 
                 const mooeJson = JSON.parse(fileStr);
+
+                checkMooeDoc(mooeJson)
 
                 /* 🔻 Transform points 🔻 */
 
