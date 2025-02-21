@@ -10,7 +10,10 @@ import { getNewCoordsWhenTurning } from "@/helpers/math";
 const UploadForm = observer(() => {
 
     const {
-        store: { isLoading, refFileName, setIsMessageShow, setIsLoading, setLoadingTime, setRefFileName, setDoc, checkMooeDoc },
+        store: {
+            isLoading, refFileName, isInsertingXData, setIsMessageShow, setIsLoading, setLoadingTime,
+            setRefFileName, setDoc, checkMooeDoc
+        },
     } = ConverterStor;
 
     const refTime = useRef([0, 0]);
@@ -156,9 +159,9 @@ const UploadForm = observer(() => {
 
                 /* 🔺 Transform points 🔺 */
 
-                const newDXF = setData(dxf, mooeJson);
+                const newDXF = setData(dxf, mooeJson, isInsertingXData);
 
-                const splines = getSplines(mooeJson, newDXF);
+                const splines = getSplines(mooeJson, newDXF, isInsertingXData);
 
                 const dxfString = newDXF.stringify();
 

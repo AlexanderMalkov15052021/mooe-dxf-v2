@@ -1,10 +1,12 @@
 import { maxDecimalIndex, scaleCorrection } from "@/constants";
 import { getCubicSpline } from "@/helpers/spline/getCubicSpline";
 import { getQuadraticSpline } from "@/helpers/spline/getQuadraticSpline";
+import { getClearCubicSpline } from "@/helpers/clearSpline/getClearCubicSpline";
+import { getClearQuadraticSpline } from "@/helpers/clearSpline/getClearQuadraticSpline";
 import { MooeDoc } from "@/types";
 import { DxfWriter } from "@tarikjabiri/dxf";
 
-export const getSplines = (mooe: MooeDoc, newDXF: DxfWriter) => {
+export const getSplines = (mooe: MooeDoc, newDXF: DxfWriter, isInsertingXData: boolean) => {
 
     const quadraticCurveLines = mooe?.mRoads.filter((obj: any) => obj.mLanes[0].mLaneType === 1);
     const cubicCurveLines = mooe?.mRoads.filter((obj: any) => obj.mLanes[0].mLaneType === 2);
@@ -45,25 +47,41 @@ export const getSplines = (mooe: MooeDoc, newDXF: DxfWriter) => {
 
         const targetIndex = (finalQuadraticCurveIndex - index).toString(16);
 
-        const appId = `QuadraticSpline - ${targetIndex}`;
+        if (isInsertingXData) {
 
-        const ids = `fixed id: road ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} ${obj.mLanes[0].mStartPos} ${obj.mLanes[0].mEndPos} `;
+            const appId = `QuadraticSpline - ${targetIndex}`;
 
-        newDXF.tables.addAppId(`QuadraticSpline - ${targetIndex}`);
+            const ids = `fixed id: road ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} ${obj.mLanes[0].mStartPos} ${obj.mLanes[0].mEndPos} `;
 
-        const quadraticSpline = getQuadraticSpline(
-            targetIndex,
-            "Quadratic spline roads",
-            firstPoint,
-            secondPoint,
-            thirdPoint,
-            appId,
-            ids
-        );
+            newDXF.tables.addAppId(`QuadraticSpline - ${targetIndex}`);
 
-        const tailPart = quadraticSpline + (index !== quadraticCurveLines.length - 1 ? "\n" : "");
+            const quadraticSpline = getQuadraticSpline(
+                targetIndex,
+                "Quadratic spline roads",
+                firstPoint,
+                secondPoint,
+                thirdPoint,
+                appId,
+                ids
+            );
 
-        return accum += tailPart;
+            const tailPart = quadraticSpline + (index !== quadraticCurveLines.length - 1 ? "\n" : "");
+
+            return accum += tailPart;
+        }
+        else {
+            const quadraticSpline = getClearQuadraticSpline(
+                targetIndex,
+                "Quadratic spline roads",
+                firstPoint,
+                secondPoint,
+                thirdPoint
+            );
+
+            const tailPart = quadraticSpline + (index !== quadraticCurveLines.length - 1 ? "\n" : "");
+
+            return accum += tailPart;
+        }
 
     }, "");
 
@@ -96,26 +114,42 @@ export const getSplines = (mooe: MooeDoc, newDXF: DxfWriter) => {
 
         const targetIndex = (finalCubicCurveIndex - index).toString(16);
 
-        const appId = `CubicSpline - ${targetIndex}`;
+        if (isInsertingXData) {
+            const appId = `CubicSpline - ${targetIndex}`;
 
-        const ids = `fixed id: road ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} ${obj.mLanes[0].mStartPos} ${obj.mLanes[0].mEndPos} `;
+            const ids = `fixed id: road ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} ${obj.mLanes[0].mStartPos} ${obj.mLanes[0].mEndPos} `;
 
-        newDXF.tables.addAppId(`CubicSpline - ${targetIndex}`);
+            newDXF.tables.addAppId(`CubicSpline - ${targetIndex}`);
 
-        const cubicSpline = getCubicSpline(
-            targetIndex,
-            "Cubic spline roads",
-            firstPoint,
-            secondPoint,
-            thirdPoint,
-            fourthPoint,
-            appId,
-            ids
-        );
+            const cubicSpline = getCubicSpline(
+                targetIndex,
+                "Cubic spline roads",
+                firstPoint,
+                secondPoint,
+                thirdPoint,
+                fourthPoint,
+                appId,
+                ids
+            );
 
-        const tailPart = cubicSpline + (index !== cubicCurveLines.length - 1 ? "\n" : "");
+            const tailPart = cubicSpline + (index !== cubicCurveLines.length - 1 ? "\n" : "");
 
-        return accum += tailPart;
+            return accum += tailPart;
+        }
+        else {
+            const cubicSpline = getClearCubicSpline(
+                targetIndex,
+                "Cubic spline roads",
+                firstPoint,
+                secondPoint,
+                thirdPoint,
+                fourthPoint
+            );
+
+            const tailPart = cubicSpline + (index !== cubicCurveLines.length - 1 ? "\n" : "");
+
+            return accum += tailPart;
+        }
 
     }, "");
 

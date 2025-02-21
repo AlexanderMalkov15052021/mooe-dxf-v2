@@ -6,7 +6,7 @@ import { getDXFLine, getPoints, getPointsLine, getStraightLines } from "@/helper
 import { addDXFText, addLayers } from "@/helpers/add";
 import { setRectangle } from "@/helpers/set";
 
-export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
+export const setData = (dxf: DxfWriter, mooe: MooeDoc, isInsertingXData: boolean) => {
 
     const pointslist = getPointsLine(mooe);
 
@@ -42,11 +42,16 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const line = getDXFLine(dxf, dir, startId, endId, pointslist);
 
-        const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
+        if (isInsertingXData) {
+            const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
 
-        const xData = line.addXData(appId.name);
+            const xData = line.addXData(appId.name);
 
-        xData.string(`fixed id: road ${line.handle} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} ${obj.mLanes[0].mStartPos} ${obj.mLanes[0].mEndPos} `);
+            xData.string(
+                `fixed id: road ${line.handle} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} ${obj.mLanes[0].mStartPos} ${obj.mLanes[0].mEndPos} `
+            );
+        }
+
     });
 
     roads?.palletRoads?.map((obj: any) => {
@@ -59,12 +64,15 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
             point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
             { layerName: "Pallet roads" }
         );
+        if (isInsertingXData) {
+            const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
 
-        const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
+            const xData = line.addXData(appId.name);
 
-        const xData = line.addXData(appId.name);
-
-        xData.string(`fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `);
+            xData.string(
+                `fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `
+            );
+        }
 
     });
 
@@ -78,12 +86,16 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
             point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
             { layerName: "Rest roads" }
         );
+        if (isInsertingXData) {
+            const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
 
-        const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
+            const xData = line.addXData(appId.name);
 
-        const xData = line.addXData(appId.name);
+            xData.string(
+                `fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `
+            );
+        }
 
-        xData.string(`fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `);
     });
 
     roads?.chargeRoads?.map((obj: any) => {
@@ -96,12 +108,14 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
             point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
             { layerName: "Charge roads" }
         );
+        if (isInsertingXData) {
+            const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
 
-        const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
+            const xData = line.addXData(appId.name);
 
-        const xData = line.addXData(appId.name);
+            xData.string(`fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `);
+        }
 
-        xData.string(`fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `);
     });
 
     // set points

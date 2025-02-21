@@ -8,6 +8,7 @@ import TypeErrorMessage from "./components/TypeErrorMessage/TypeErrorMessage";
 import LoadingBlock from "./components/LoadingBlock/LoadingBlock";
 import DownloadBtn from "./components/DownloadBtn/DownloadBtn";
 import ModalIds from "./components/ModalIds/ModalIds";
+import SwitchAddingXData from "./components/SwitchAddingXData/SwitchAddingXData";
 
 export default function Home() {
 
@@ -35,6 +36,8 @@ export default function Home() {
         <main className={"main-block"}>
 
           <UploadForm />
+
+          <SwitchAddingXData />
 
           <TypeErrorMessage />
 

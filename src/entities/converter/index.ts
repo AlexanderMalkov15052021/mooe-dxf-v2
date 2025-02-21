@@ -1,6 +1,9 @@
 import { MooeDoc } from "@/types";
 import { makeAutoObservable } from "mobx";
 
+const xDataText: string = "Устанавливает XData!";
+const withoutXDataText: string = "Не устанавливает XData!";
+
 class ConverterStor {
     isLoading: boolean = false;
     refFileName: string | null = null;
@@ -16,11 +19,18 @@ class ConverterStor {
     duplicateObjects: { name: string, id: number, coords?: { w: number; x: number; y: number; z: number; } }[] = [];
     duplicateObjectsGroup: Record<number, { name: string, id: number, coords?: { w: number; x: number; y: number; z: number; } }[]> = {};
 
+    // для работы с XData
     modalIdsState: boolean = false;
-
+    addingXDataText: string = xDataText;
+    isInsertingXData = true;
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setWithXData = (val: boolean) => {
+        this.isInsertingXData = !val;
+        this.addingXDataText = val ? withoutXDataText : xDataText;
     }
 
 
