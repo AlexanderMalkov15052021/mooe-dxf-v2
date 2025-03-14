@@ -29,7 +29,7 @@ export const addLayers = (dxf: DxfWriter) => {
     dxf.addLayer("Othe target points", 90);
 }
 
-export const addDXFText = (dxf: DxfWriter, layerName: string, point: laneMark) => {
+export const addDXFText = (dxf: DxfWriter, layerName: string, point: laneMark, isInsertingXData: boolean) => {
     const text = dxf.addMText(
         { x: point.mLaneMarkXYZW.x / scaleCorrection, y: point.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
         fontSize,
@@ -37,11 +37,14 @@ export const addDXFText = (dxf: DxfWriter, layerName: string, point: laneMark) =
         { layerName }
     );
 
-    const appTargetId = dxf.tables.addAppId(`text - ${text.handle}`);
+    if (isInsertingXData) {
+        const appTargetId = dxf.tables.addAppId(`text - ${text.handle}`);
 
-    const xTargetIdData = text.addXData(appTargetId.name);
+        const xTargetIdData = text.addXData(appTargetId.name);
 
-    const str = getTmpStr({ text: text.handle, pointId: point.mLaneMarkID });
+        const str = getTmpStr({ text: text.handle, pointId: point.mLaneMarkID });
 
-    xTargetIdData.string(str);
+        xTargetIdData.string(str);
+    }
+
 }

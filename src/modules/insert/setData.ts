@@ -121,23 +121,23 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc, isInsertingXData: boolean
     // set points
 
     // set alley points
-    points?.palletPoints?.map((point: laneMark) => addDXFText(dxf, "Pallet points", point));
-    points?.targetPalletPoints?.map((point: laneMark) => addDXFText(dxf, "Target pallet points", point));
-    points?.turningPalletPoints?.map((point: laneMark) => addDXFText(dxf, "Turning pallet points", point));
-    points?.cachePalletPoints?.map((point: laneMark) => addDXFText(dxf, "Cache pallet points", point));
+    points?.palletPoints?.map((point: laneMark) => addDXFText(dxf, "Pallet points", point, isInsertingXData));
+    points?.targetPalletPoints?.map((point: laneMark) => addDXFText(dxf, "Target pallet points", point, isInsertingXData));
+    points?.turningPalletPoints?.map((point: laneMark) => addDXFText(dxf, "Turning pallet points", point, isInsertingXData));
+    points?.cachePalletPoints?.map((point: laneMark) => addDXFText(dxf, "Cache pallet points", point, isInsertingXData));
 
     // set rest points
-    points?.restPoints?.map((rest: laneMark) => addDXFText(dxf, "Rest points", rest));
-    points?.targetRestPoints?.map((point: laneMark) => addDXFText(dxf, "Target rest points", point));
-    points?.turningRestPoints?.map((point: laneMark) => addDXFText(dxf, "Turning rest points", point));
+    points?.restPoints?.map((rest: laneMark) => addDXFText(dxf, "Rest points", rest, isInsertingXData));
+    points?.targetRestPoints?.map((point: laneMark) => addDXFText(dxf, "Target rest points", point, isInsertingXData));
+    points?.turningRestPoints?.map((point: laneMark) => addDXFText(dxf, "Turning rest points", point, isInsertingXData));
 
     // set charge points
-    points?.chargePoints?.map((rest: laneMark) => addDXFText(dxf, "Charge points", rest));
-    points?.targetChargePoints?.map((point: laneMark) => addDXFText(dxf, "Target charge points", point));
-    points?.turningChargePoints?.map((point: laneMark) => addDXFText(dxf, "Turning charge points", point));
+    points?.chargePoints?.map((rest: laneMark) => addDXFText(dxf, "Charge points", rest, isInsertingXData));
+    points?.targetChargePoints?.map((point: laneMark) => addDXFText(dxf, "Target charge points", point, isInsertingXData));
+    points?.turningChargePoints?.map((point: laneMark) => addDXFText(dxf, "Turning charge points", point, isInsertingXData));
 
     // set othe target points
-    otherTargetPoints?.map((point: laneMark) => addDXFText(dxf, "Othe target points", point));
+    otherTargetPoints?.map((point: laneMark) => addDXFText(dxf, "Othe target points", point, isInsertingXData));
 
     points?.locationPoints?.map((obj: any, index: number) => {
 
